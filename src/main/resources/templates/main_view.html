@@ -1,0 +1,279 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8" content="text/html" http-equiv="Content-Type"/>
+
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" rel="stylesheet">
+    <link href="style.css" rel="stylesheet" type="text/css">
+
+    <title>MAIN</title>
+
+</head>
+<body onload="firstLoad()">
+
+<nav class="navbar navbar-dark bg-dark">
+    <a class="navbar-brand">
+        SPRING EXAMPLE
+    </a>
+    <form action="/logout" class="form-inline" method="post">
+        <button class="btn btn-primary" type="submit">
+            Logout
+        </button>
+    </form>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-2 bg-white">
+            <div aria-orientation="vertical" class="nav flex-column nav-pills" id="v-pills-tab" role="tablist">
+                <a aria-controls="v-pills-user" aria-selected="true" class="nav-link active" data-toggle="pill"
+                   href="#v-pills-user"
+                   id="v-pills-user-tab" role="tab" sec:authorize="isAuthenticated()">USER PAGE</a>
+                <a aria-controls="v-pills-admin" aria-selected="false" class="nav-link" data-toggle="pill"
+                   href="#v-pills-admin"
+                   id="v-pills-admin-tab" role="tab" sec:authorize="hasRole('ADMIN')">ADMIN PAGE</a>
+            </div>
+        </div>
+        <div class="col bg-light">
+
+            <div class="tab-content" id="v-pills-tabContent">
+                <div aria-labelledby="v-pills-user-tab" class="tab-pane fade show active" id="v-pills-user"
+                     role="tabpanel">
+
+                    <div class="col bg-light">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col">
+                                    <h1 class="display-6">USER PANEL</h1>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="container-fluid border rounded">
+                                        <div class="row bg-white border-bottom">
+                                            <div class="col">
+                                                <p class="my-2"><strong>user table</strong></p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <table class="table table-borderless">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>id</th>
+                                                        <th>name</th>
+                                                        <th>role</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody id="user_table_body"></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div aria-labelledby="v-pills-admin-tab" class="tab-pane fade" id="v-pills-admin" role="tabpanel">
+
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col">
+                                <h1 class="display-6">ADMIN PANEL</h1>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+
+                                <ul class="nav nav-tabs">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#users_table">users table</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#add_user">add user</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content border-bottom border-left border-right rounded-bottom">
+                                    <div class="tab-pane fade show active" id="users_table">
+
+                                        <div class="container-fluid">
+                                            <div class="row bg-white border-bottom">
+                                                <div class="col">
+                                                    <p class="my-2"><strong>users table</strong></p>
+                                                </div>
+                                            </div>
+                                            <div class="row bg-light">
+                                                <div class="col">
+
+                                                    <table class="table table-borderless table-striped">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>id</th>
+                                                            <th>name</th>
+                                                            <th>role</th>
+                                                            <th>update</th>
+                                                            <th>delete</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody id="users_table_body"></tbody>
+                                                    </table>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="tab-pane fade" id="add_user">
+
+                                        <div class="container-fluid">
+                                            <div class="row bg-white border-bottom">
+                                                <div class="col">
+                                                    <p class="my-2"><strong>add new user</strong></p>
+                                                </div>
+                                            </div>
+                                            <div class="row bg-light ">
+                                                <div class="col-4 mx-auto text-center my-2">
+
+                                                    <form>
+
+                                                        <div class="form-group">
+                                                            <label for="add_name"><strong>name</strong></label>
+                                                            <input aria-describedby="add_nameHelp" class="form-control"
+                                                                   id="add_name"
+                                                                   placeholder="enter name"
+                                                                   type="text"/>
+                                                            <small class="form-text text-danger text-left"
+                                                                   id="add_nameHelp">
+                                                                cannot be empty</small>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label for="add_password"><strong>password</strong></label>
+                                                            <input aria-describedby="add_passwordHelp"
+                                                                   class="form-control" id="add_password"
+                                                                   placeholder="enter password"
+                                                                   type="text"/>
+                                                            <small class="form-text text-danger text-left"
+                                                                   id="add_passwordHelp">
+                                                                cannot be empty</small>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label for="select_add_role"><strong>role</strong></label>
+                                                            <select class="form-control" id="select_add_role"> </select>
+                                                        </div>
+
+                                                        <button class="btn btn-success" id="add_btn" type="button">add
+                                                            new user
+                                                        </button>
+
+                                                    </form>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div aria-hidden="true" aria-labelledby="updateModalLabel" class="modal fade" id="updateModal" role="dialog"
+     tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateModalLabel">UPDATE USER</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <form>
+
+                <div class="modal-body">
+
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-4 mx-auto text-center my-2">
+
+                                <div class="form-group">
+                                    <label for="update_id"><strong>id</strong></label>
+                                    <input class="form-control" disabled
+                                           id="update_id" type="text"/>
+                                    <input id="update_hidden_id" type="hidden"/>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="update_name"><strong>name</strong></label>
+                                    <input aria-describedby="update_nameHelp"
+                                           class="form-control" id="update_name"
+                                           placeholder="enter name"
+                                           required type="text"/>
+                                    <small class="form-text text-danger text-left"
+                                           id="update_nameHelp">
+                                        cannot be empty</small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="update_password"><strong>password</strong></label>
+                                    <input aria-describedby="update_passwordHelp"
+                                           class="form-control" id="update_password"
+                                           placeholder="enter password"
+                                           type="text"/>
+                                    <small class="form-text text-danger text-left" id="update_passwordHelp">
+                                        empty field - old password<br> completed field - new password
+                                    </small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="select_update_role"><strong>role</strong></label>
+                                    <select class="form-control" id="select_update_role">
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-light border-secondary" data-dismiss="modal" type="button">close</button>
+                    <button class="btn btn-primary" id="modal_update_btn" type="button">update user</button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<script crossorigin="anonymous"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>
